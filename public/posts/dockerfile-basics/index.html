@@ -59,7 +59,7 @@
   
   
   <meta property="og:title" content="Les bases de Dockerfile" />
-<meta property="og:description" content="Pour rappel, une image Docker est un template contenant des instructions pour créer un container Docker." />
+<meta property="og:description" content="Pour rappel :" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/posts/dockerfile-basics/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-08-19T12:25:00+02:00" />
@@ -67,7 +67,7 @@
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Les bases de Dockerfile"/>
-<meta name="twitter:description" content="Pour rappel, une image Docker est un template contenant des instructions pour créer un container Docker."/>
+<meta name="twitter:description" content="Pour rappel :"/>
 
   
   <script type="application/ld+json">
@@ -78,7 +78,7 @@
     "name": "Les bases de Dockerfile",
     "headline": "Les bases de Dockerfile",
     
-    "abstract": "Pour rappel, une image Docker est un template contenant des instructions pour créer un container Docker.",
+    "abstract": "Pour rappel :",
     "inLanguage": "fr",
     "url" : "http:\/\/example.org\/posts\/dockerfile-basics\/",
     "author" : {
@@ -94,7 +94,7 @@
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "138"
+    "wordCount": "247"
   }]
   </script>
 
@@ -365,7 +365,7 @@
 <div class="flex flex-row flex-wrap items-center">
   
   
-  <time datetime="2023-08-19 12:25:00 &#43;0200 CEST">19 août 2023</time><span class="px-2 text-primary-500">&middot;</span><span>138 mots</span><span class="px-2 text-primary-500">&middot;</span><span title="Temps de lecture">1 min</span>
+  <time datetime="2023-08-19 12:25:00 &#43;0200 CEST">19 août 2023</time><span class="px-2 text-primary-500">&middot;</span><span>247 mots</span><span class="px-2 text-primary-500">&middot;</span><span title="Temps de lecture">2 mins</span>
   
 
   
@@ -494,8 +494,12 @@
 
 
         <div class="max-w-prose mb-20">
-          <p>Pour rappel, une image Docker est un <em>template</em> contenant des instructions pour créer un container Docker.
-Un Dockerfile permet de définir ces instructions afin de créer une image Docker.</p>
+          <p>Pour rappel :</p>
+<ul>
+<li>une image Docker est un <em>template</em> contenant des instructions pour créer un container Docker</li>
+<li>un fichier Dockerfile permet de définir ces instructions afin de créer une image Docker</li>
+<li>unne image Docker peut comporter plusieurs layers et commence toujours avec un layer de base</li>
+</ul>
 <p>Pour notre premier test, nous allons utiliser une image de la distro Linux Alpine et y installer vim.
 La première instruction de notre Dockerfile (nommé <code>Dockerfile</code>) sera donc :</p>
 <pre tabindex="0"><code>FROM alpine:latest
@@ -506,7 +510,24 @@ En l&rsquo;occurence, nous nous basons sur la dernière version de Alpine. Si no
 apk add vim
 </code></pre><p>L&rsquo;instruction RUN va créer un nouveau <em>layer</em> Docker et exécuter l&rsquo;instruction passée en paramètre. En l&rsquo;occurence, les instructions executées seront <code>apk update</code>
 et <code>apk add vim</code>.</p>
-
+<div id="construction-de-limage" class="anchor"></div>
+<h2 class="relative group">Construction de l&rsquo;image 
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#construction-de-limage" aria-label="Ancre">#</a></span>        
+    
+</h2>
+<p>Pour constuire une image à partir de notre Dockerfile, on utilisera <code>docker build</code>.
+<code>docker build</code> requiert à minima un contexte : en l&rsquo;occurence le dossier dans lequel se trouve le Dockerfile.
+On utilisera également le flag <code>-t</code> afin de tagger notre image avec un nom pour des raisons de praticité.</p>
+<pre tabindex="0"><code>docker build -t dockerfile-tutorial .
+</code></pre><p>Docker va donc build notre image. Pour vérifier si l&rsquo;image a bien été créée :</p>
+<pre tabindex="0"><code>docker images
+</code></pre><p>Retour console :</p>
+<pre tabindex="0"><code>REPOSITORY                         TAG               IMAGE ID       CREATED         SIZE
+dockerfile-tutorial                latest            4f21a4e055d1   40 hours ago    41.4MB
+</code></pre>
         </div>
                 
         
