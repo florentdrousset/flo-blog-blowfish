@@ -5,6 +5,8 @@
     
   
     
+  
+    
       <url>
             <loc>http://example.org/en/</loc>
             <changefreq>daily</changefreq>
@@ -20,8 +22,6 @@
               href="http://example.org/en/"
               />
           </url>
-    
-  
     
   
     

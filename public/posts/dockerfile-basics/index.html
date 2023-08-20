@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+<html lang="fr" dir="ltr" class="scroll-smooth" data-default-appearance="dark"
   data-auto-appearance="true"><head>
   <meta charset="utf-8" />
   
@@ -59,7 +59,7 @@
   
   
   <meta property="og:title" content="Les bases de Dockerfile" />
-<meta property="og:description" content="Pour rappel :" />
+<meta property="og:description" content="Préambule # Pour rappel :" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/posts/dockerfile-basics/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-08-19T12:25:00+02:00" />
@@ -67,7 +67,7 @@
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Les bases de Dockerfile"/>
-<meta name="twitter:description" content="Pour rappel :"/>
+<meta name="twitter:description" content="Préambule # Pour rappel :"/>
 
   
   <script type="application/ld+json">
@@ -78,7 +78,7 @@
     "name": "Les bases de Dockerfile",
     "headline": "Les bases de Dockerfile",
     
-    "abstract": "Pour rappel :",
+    "abstract": "Préambule # Pour rappel :",
     "inLanguage": "fr",
     "url" : "http:\/\/example.org\/posts\/dockerfile-basics\/",
     "author" : {
@@ -94,7 +94,7 @@
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "247"
+    "wordCount": "494"
   }]
   </script>
 
@@ -365,7 +365,7 @@
 <div class="flex flex-row flex-wrap items-center">
   
   
-  <time datetime="2023-08-19 12:25:00 &#43;0200 CEST">19 août 2023</time><span class="px-2 text-primary-500">&middot;</span><span>247 mots</span><span class="px-2 text-primary-500">&middot;</span><span title="Temps de lecture">2 mins</span>
+  <time datetime="2023-08-19 12:25:00 &#43;0200 CEST">19 août 2023</time><span class="px-2 text-primary-500">&middot;</span><span>494 mots</span><span class="px-2 text-primary-500">&middot;</span><span title="Temps de lecture">3 mins</span>
   
 
   
@@ -494,11 +494,19 @@
 
 
         <div class="max-w-prose mb-20">
-          <p>Pour rappel :</p>
+          <div id="préambule" class="anchor"></div>
+<h2 class="relative group">Préambule 
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#pr%c3%a9ambule" aria-label="Ancre">#</a></span>        
+    
+</h2>
+<p>Pour rappel :</p>
 <ul>
 <li>une image Docker est un <em>template</em> contenant des instructions pour créer un container Docker</li>
 <li>un fichier Dockerfile permet de définir ces instructions afin de créer une image Docker</li>
-<li>unne image Docker peut comporter plusieurs layers et commence toujours avec un layer de base</li>
+<li>une image Docker peut comporter plusieurs layers et commence toujours avec un layer de base</li>
 </ul>
 <p>Pour notre premier test, nous allons utiliser une image de la distro Linux Alpine et y installer vim.
 La première instruction de notre Dockerfile (nommé <code>Dockerfile</code>) sera donc :</p>
@@ -527,7 +535,32 @@ On utilisera également le flag <code>-t</code> afin de tagger notre image avec 
 </code></pre><p>Retour console :</p>
 <pre tabindex="0"><code>REPOSITORY                         TAG               IMAGE ID       CREATED         SIZE
 dockerfile-tutorial                latest            4f21a4e055d1   40 hours ago    41.4MB
-</code></pre>
+</code></pre><div id="construction-du-container" class="anchor"></div>
+<h2 class="relative group">Construction du container 
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#construction-du-container" aria-label="Ancre">#</a></span>        
+    
+</h2>
+<p>Bien ! Nous avons notre image, nous pouvons à présent créer un container à partir de celle-ci.
+Le container sera une instance de notre image qui n&rsquo;est, encore une fois, qu&rsquo;un modèle ou <strong>template</strong> permettant de créer des containers Docker.
+Pour run un container à partir de notre image :</p>
+<pre tabindex="0"><code>docker run --rm -ti dockerfile-tutorial /bin/sh
+</code></pre><p>Analysons cette commande :</p>
+<p><code>docker run</code> : lance un conteneur Docker à partir d&rsquo;une image spécifiée (en l&rsquo;occurence, <code>dockerfile-tutorial</code>)</p>
+<p><code>--rm</code>: indique à Docker de supprimer automatiquement le conteneur une fois qu&rsquo;il est arrêté. Sans cette option, on devrait manuellement supprimer le conteneur à coup de <code>docker rm</code> après l&rsquo;avoir arrêté.</p>
+<p><code>-ti</code>: <code>-t</code> Alloue un pseudo-TTY : le container sera run avec un terminal interactif. <code>-i</code> : Permet de garder <em>STDIN</em> ouvert, afin de pouvoir interagir avec le container en direct.</p>
+<p>Si tout s&rsquo;est bien passé, vous devriez être gratifié d&rsquo;un :</p>
+<pre tabindex="0"><code>/ #
+</code></pre><p>Vous voilà donc connecté au terminal de votre nouveau container basé sur l&rsquo;image alpine.
+Comme nous avions spécifié l&rsquo;installation de <em>vim</em> dans le Dockerfile, nous pouvons tester si celui-ci fonctionne bien :</p>
+<pre tabindex="0"><code>vim
+</code></pre><p>Nous voilà sur <em>vim</em>, lancé depuis notre nouveau container construit à partir du Dockefile que nous avons écrit.
+<code>:q</code> + entrée pour quitter vim, et taper <code>exit</code> pour quitter le container.</p>
+<p><code>docker ps</code> permet de lister tous les containers actifs.
+Notre container nommé <code>dockerfile-tutorial</code> ne devrait pas apparaître dans cette liste, car nous l&rsquo;avions lancée avec le flag <code>--rm</code>.</p>
+
         </div>
                 
         
@@ -584,9 +617,7 @@ dockerfile-tutorial                latest            4f21a4e055d1   40 hours ago
     <p class="text-xs text-neutral-500 dark:text-neutral-400">
       
       
-      Propulsé par <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
-        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
-        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+      
     </p>
     
 
