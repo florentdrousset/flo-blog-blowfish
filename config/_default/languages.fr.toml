@@ -16,7 +16,7 @@ title = "Florent Drousset"
  [author]
    name = "Florent Drousset"
    image = "img/goemon_avatar.png"
-   headline = "web dev"
+   headline = "web developer, ops enthusiast"
    bio = "Développeur web"
    links = [
      { email = "mailto:florent.drousset@gmail.com" },

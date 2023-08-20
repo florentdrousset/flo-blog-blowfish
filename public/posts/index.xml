@@ -9,7 +9,7 @@
     <copyright>© 2023 Florent Drousset</copyright>
     <lastBuildDate>Sat, 19 Aug 2023 12:25:00 +0200</lastBuildDate><atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Les bases de Dockerfile</title>
+      <title>Les bases de Dockerfile - Partie I</title>
       <link>http://example.org/posts/dockerfile-basics/</link>
       <pubDate>Sat, 19 Aug 2023 12:25:00 +0200</pubDate>
       
