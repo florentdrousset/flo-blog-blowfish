@@ -11,7 +11,7 @@ Pour rappel :
 * un fichier Dockerfile permet de définir ces instructions afin de créer une image Docker
 * une image Docker peut comporter plusieurs layers et commence toujours avec un layer de base
 
-Pour notre premier test, nous allons utiliser une image de la distro Linux [Alpine](https://www.alpinelinux.org/) comme image de base et y installer vim.
+Pour notre premier test, nous allons utiliser une image de la distro Linux [Alpine](https://www.alpinelinux.org/) comme layer de base et y installer vim.
 La première instruction de notre Dockerfile (nommé `Dockerfile`) sera donc :
 
 ```dockerfile
@@ -19,7 +19,7 @@ FROM alpine:latest
 ```
 
 En effet, une image peut être (et sera la plupart du temps) basée sur une autre image.
-En l'occurence, nous nous basons sur la dernière version de Alpine. Si nous souhaitions utiliser une version spécifique, on pourrait alors écrire `alpine:3.15.10` (par exemple).
+Pour ce premier exemple, nous nous basons sur la dernière version de Alpine. Si nous souhaitions utiliser une version spécifique, on pourrait alors écrire `alpine:3.15.10` (par exemple).
 
 La prochaine instruction sera
 
