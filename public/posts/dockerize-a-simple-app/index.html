@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
-  <title>Les bases de Dockerfile - Partie I &middot; Florent Drousset</title>
-  <meta name="title" content="Les bases de Dockerfile - Partie I &middot; Florent Drousset" />
+  <title>Dockerizer une app web simple &middot; Florent Drousset</title>
+  <meta name="title" content="Dockerizer une app web simple &middot; Florent Drousset" />
   
   <meta name="description" content="Blog de Florent Drousset" />
   
   
   
-  <link rel="canonical" href="http://example.org/posts/dockerfile-basics/" />
+  <link rel="canonical" href="http://example.org/posts/dockerize-a-simple-app/" />
   
   
   
@@ -58,17 +58,17 @@
   
   
   
-  <meta property="og:title" content="Les bases de Dockerfile - Partie I" />
-<meta property="og:description" content="Préambule # Pour rappel :" />
+  <meta property="og:title" content="Dockerizer une app web simple" />
+<meta property="og:description" content="Introduction # Dans ce petit tutoriel, nous allons explorer comment Docker peut simplifier le déploiement d&rsquo;une application web." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/posts/dockerfile-basics/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-08-19T12:25:00+02:00" />
-<meta property="article:modified_time" content="2023-08-19T12:25:00+02:00" />
+<meta property="og:url" content="http://example.org/posts/dockerize-a-simple-app/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-09-24T18:54:50+02:00" />
+<meta property="article:modified_time" content="2023-09-24T18:54:50+02:00" />
 
 
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Les bases de Dockerfile - Partie I"/>
-<meta name="twitter:description" content="Préambule # Pour rappel :"/>
+<meta name="twitter:title" content="Dockerizer une app web simple"/>
+<meta name="twitter:description" content="Introduction # Dans ce petit tutoriel, nous allons explorer comment Docker peut simplifier le déploiement d&rsquo;une application web."/>
 
   
   <script type="application/ld+json">
@@ -76,26 +76,26 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "Posts",
-    "name": "Les bases de Dockerfile - Partie I",
-    "headline": "Les bases de Dockerfile - Partie I",
+    "name": "Dockerizer une app web simple",
+    "headline": "Dockerizer une app web simple",
     
-    "abstract": "Préambule # Pour rappel :",
+    "abstract": "Introduction # Dans ce petit tutoriel, nous allons explorer comment Docker peut simplifier le déploiement d\u0026rsquo;une application web.",
     "inLanguage": "fr",
-    "url" : "http:\/\/example.org\/posts\/dockerfile-basics\/",
+    "url" : "http:\/\/example.org\/posts\/dockerize-a-simple-app\/",
     "author" : {
       "@type": "Person",
       "name": "Florent Drousset"
     },
     "copyrightYear": "2023",
-    "dateCreated": "2023-08-19T12:25:00\u002b02:00",
-    "datePublished": "2023-08-19T12:25:00\u002b02:00",
+    "dateCreated": "2023-09-24T18:54:50\u002b02:00",
+    "datePublished": "2023-09-24T18:54:50\u002b02:00",
     
-    "dateModified": "2023-08-19T12:25:00\u002b02:00",
+    "dateModified": "2023-09-24T18:54:50\u002b02:00",
     
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "1206"
+    "wordCount": "399"
   }]
   </script>
 
@@ -323,7 +323,7 @@
   <header id="single_header" class="mt-5 max-w-prose">
     
     <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-      Les bases de Dockerfile - Partie I
+      Dockerizer une app web simple
     </h1>
     <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
       
@@ -443,165 +443,141 @@
 
 
         <div class="max-w-prose mb-20">
-          <div id="préambule" class="anchor"></div>
-<h2 class="relative group">Préambule 
+          <div id="introduction" class="anchor"></div>
+<h2 class="relative group">Introduction 
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#pr%c3%a9ambule" aria-label="Ancre">#</a></span>        
+            style="text-decoration-line: none !important;" href="#introduction" aria-label="Ancre">#</a></span>        
     
 </h2>
-<p>Pour rappel :</p>
+<p>Dans ce petit tutoriel, nous allons explorer comment Docker peut simplifier le déploiement d&rsquo;une application web. Plus précisément, nous allons dockeriser une application web existante, <code>httpbin</code>, et y ajouter une couche de mise en cache avec Redis, le tout orchestré par docker compose.</p>
+<div id="prérequis" class="anchor"></div>
+<h2 class="relative group">Prérequis 
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#pr%c3%a9requis" aria-label="Ancre">#</a></span>        
+    
+</h2>
 <ul>
-<li>une image Docker est un <em>template</em> contenant des instructions pour créer un container Docker</li>
-<li>un fichier Dockerfile permet de définir ces instructions afin de créer une image Docker</li>
-<li>une image Docker peut comporter plusieurs layers et commence toujours avec un layer de base</li>
+<li>Docker installé sur votre machine</li>
+<li>Connaissances de base en ligne de commande</li>
 </ul>
-<p>Pour notre premier test, nous allons utiliser une image de la distro Linux <a href="https://www.alpinelinux.org/"   target="_blank">
-    Alpine</a> comme layer de base et y installer vim.
-La première instruction de notre Dockerfile (nommé <code>Dockerfile</code>) sera donc :</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> alpine:latest</span><span class="err">
-</span></span></span></code></pre></div><p>En effet, une image peut être (et sera la plupart du temps) basée sur une autre image.
-Pour ce premier exemple, nous nous basons sur la dernière version de Alpine. Si nous souhaitions utiliser une version spécifique, on pourrait alors écrire <code>alpine:3.15.10</code> (par exemple).</p>
-<p>La prochaine instruction sera</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">RUN</span> apk update <span class="o">&amp;&amp;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>apk add vim<span class="err">
-</span></span></span></code></pre></div><p>L&rsquo;instruction RUN va créer un nouveau <em>layer</em> Docker et exécuter l&rsquo;instruction passée en paramètre. En l&rsquo;occurence, les instructions executées seront <code>apk update</code>
-et <code>apk add vim</code>.</p>
-<div id="construction-de-limage" class="anchor"></div>
-<h2 class="relative group">Construction de l&rsquo;image 
+<div id="étapes-du-tutoriel" class="anchor"></div>
+<h2 class="relative group">Étapes du Tutoriel 
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#construction-de-limage" aria-label="Ancre">#</a></span>        
+            style="text-decoration-line: none !important;" href="#%c3%a9tapes-du-tutoriel" aria-label="Ancre">#</a></span>        
     
 </h2>
-<p>Pour constuire une image à partir de notre Dockerfile, on utilisera <code>docker build</code>.
-<code>docker build</code> requiert à minima un contexte : en l&rsquo;occurence le dossier dans lequel se trouve le Dockerfile.
-On utilisera également le flag <code>-t</code> afin de tagger notre image avec un nom pour des raisons de praticité.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl">docker build -t dockerfile-tutorial .<span class="err">
-</span></span></span></code></pre></div><p>Docker va donc build notre image. Pour vérifier si l&rsquo;image a bien été créée :</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl">docker images<span class="err">
-</span></span></span></code></pre></div><p>Retour console :</p>
-<pre tabindex="0"><code>REPOSITORY                         TAG               IMAGE ID       CREATED         SIZE
-dockerfile-tutorial                latest            4f21a4e055d1   40 hours ago    41.4MB
-</code></pre><div id="construction-du-container" class="anchor"></div>
-<h2 class="relative group">Construction du container 
+<div id="1-dockerisation-de-httpbin" class="anchor"></div>
+<h3 class="relative group">1. Dockerisation de httpbin 
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#construction-du-container" aria-label="Ancre">#</a></span>        
+            style="text-decoration-line: none !important;" href="#1-dockerisation-de-httpbin" aria-label="Ancre">#</a></span>        
     
-</h2>
-<p>Bien ! Nous avons notre image, nous pouvons à présent créer un container à partir de celle-ci.
-Le container sera une instance de notre image qui n&rsquo;est, encore une fois, qu&rsquo;un modèle ou <strong>template</strong> permettant de créer des containers Docker.
-Pour run un container à partir de notre image :</p>
-<pre tabindex="0"><code>docker run --rm -ti dockerfile-tutorial /bin/sh
-</code></pre><p>Analysons cette commande :</p>
-<p><code>docker run</code> : lance un conteneur Docker à partir d&rsquo;une image spécifiée (en l&rsquo;occurence, <code>dockerfile-tutorial</code>)</p>
-<p><code>--rm</code>: indique à Docker de supprimer automatiquement le conteneur une fois qu&rsquo;il est arrêté. Sans cette option, on devrait manuellement supprimer le conteneur à coup de <code>docker rm</code> après l&rsquo;avoir arrêté.</p>
-<p><code>-ti</code>: <code>-t</code> alloue un pseudo-TTY : le container sera run avec un terminal interactif. <code>-i</code> : Permet de garder <em>STDIN</em> ouvert, afin de pouvoir interagir avec le container en direct.</p>
-<p>Si tout s&rsquo;est bien passé, vous devriez être gratifié d&rsquo;un :</p>
-<pre tabindex="0"><code>/ #
-</code></pre><p>Vous voilà donc connecté au terminal de votre nouveau container basé sur l&rsquo;image alpine.
-Comme nous avions spécifié l&rsquo;installation de <em>vim</em> dans le Dockerfile, nous pouvons tester si celui-ci fonctionne bien :</p>
-<pre tabindex="0"><code>vim
-</code></pre><p>Nous voilà sur <em>vim</em>, lancé depuis notre nouveau container construit à partir du Dockefile que nous avons écrit.
-<code>:q</code> + entrée pour quitter vim, et taper <code>exit</code> pour quitter le container.</p>
-<p><code>docker ps</code> permet de lister tous les containers actifs. Comme nous venons de quitter notre container, celui-ci ne devrait pas apparaître dans cette liste.</p>
-<div id="un-mot-sur-les-layers" class="anchor"></div>
-<h2 class="relative group">Un mot sur les layers 
+</h3>
+<p>Tout d&rsquo;abord, créons un fichier <code>Dockerfile</code> (voir mon <a href="../dockerfile-basics"  >
+    intro à Dockerfile</a> pour vous rafraîchir la mémoire !) avec le contenu suivant :</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl"><span class="c"># Nous utiliserons une image python officielle comme image parent</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="s"> python:3.9-slim</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># On définit le répertoire de travail dans le container</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /usr/src/app</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># On installe httpbin et gunicorn</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> pip install httpbin gunicorn<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># On définit ici la commande à exécuter lors du démarrage du conteneur</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;gunicorn&#34;</span><span class="p">,</span> <span class="s2">&#34;-b&#34;</span><span class="p">,</span> <span class="s2">&#34;0.0.0.0:80&#34;</span><span class="p">,</span> <span class="s2">&#34;httpbin:app&#34;</span><span class="p">]</span><span class="err">
+</span></span></span></code></pre></div><div id="2-utilisation-de-docker-compose" class="anchor"></div>
+<h2 class="relative group">2. Utilisation de Docker Compose 
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#un-mot-sur-les-layers" aria-label="Ancre">#</a></span>        
+            style="text-decoration-line: none !important;" href="#2-utilisation-de-docker-compose" aria-label="Ancre">#</a></span>        
     
 </h2>
-<p>Chaque instruction de notre Dockerfile construit un nouveau layer au-dessus du précédent.
-Ceux-ci sont automatiquement mis en cache par Docker lors du build : Docker essayera toujours de récupérer un layer en cache après avoir vérifié si celui-ci a été modifié.</p>
-<p>Si un layer a changé depuis le dernier build, <strong>tous les layers suivants seront rebuild</strong>. L&rsquo;optimisation du cache dans Docker fera probablement l&rsquo;objet d&rsquo;un article à part entière,
-mais vous pouvez vous référer à <a href="https://docs.docker.com/build/cache/"   target="_blank">
-    l&rsquo;article dédié</a> dans la documentation officielle de Docker.</p>
-<p>Reprenons le retour console lorsque que nous exécutons la commande <code>docker build -t dockerfile-tutorial .</code> :</p>
-<pre tabindex="0"><code>[+] Building 0.4s (7/7) FINISHED
-=&gt; [internal] load build definition from Dockerfile                                                                                                                                                    0.0s
-=&gt; =&gt; transferring dockerfile: 88B                                                                                                                                                                     0.0s
-=&gt; [internal] load .dockerignore                                                                                                                                                                       0.0s
-=&gt; =&gt; transferring context: 2B                                                                                                                                                                         0.0s
-=&gt; [internal] load metadata for docker.io/library/alpine:latest                                                                                                                                        0.4s
-=&gt; [1/3] FROM docker.io/library/alpine:latest@sha256:7144f7bab3d4c2648d7e59409f15ec52a18006a128c733fcff20d3a4a54ba44a                                                                                  0.0s
-=&gt; CACHED [2/3] RUN apk update                                                                                                                                                                         0.0s
-=&gt; CACHED [3/3] RUN apk add vim                                                                                                                                                                        0.0s
-=&gt; exporting to image                                                                                                                                                                                  0.0s
-=&gt; =&gt; exporting layers                                                                                                                                                                                 0.0s
-=&gt; =&gt; writing image sha256:011e7455dac2771e18a365a9e9fae2951eb199c7f0b901b7b2cbb60ef5cdaa68                                                                                                            0.0s
-=&gt; =&gt; naming to docker.io/library/dockerfile-tutorial
-</code></pre><p>On peut constater que 3 layers ont été lancés :
-1 - le layer de base : l&rsquo;image <code>alpine:latest</code>
-2 - l&rsquo;instruction <code>RUN apk update</code> (récupérée du cache)
-3 - l&rsquo;instruction <code>RUN apk add vim</code> (également récupérée du cache)</p>
-<p>Avoir une bonne compréhension des layers est important pour comprendre la construction des images Docker.</p>
-<div id="vers-des-images-plus-complexes" class="anchor"></div>
-<h2 class="relative group">Vers des images plus complexes 
+<p>Créez un fichier docker-compose.yml :</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl">version: <span class="s1">&#39;3&#39;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>services:<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  httpbin:<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    build:<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>      context: .<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>      dockerfile: Dockerfile<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    ports:<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>      - <span class="s2">&#34;8080:80&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  redis:<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    image: <span class="s2">&#34;redis:latest&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>    ports:<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>      - <span class="s2">&#34;6379:6379&#34;</span><span class="err">
+</span></span></span></code></pre></div><p>Lancez les services avec Docker Compose :</p>
+<pre tabindex="0"><code>docker-compose up
+</code></pre><div id="3--implémenter-la-persistance-des-données" class="anchor"></div>
+<h2 class="relative group">3.  Implémenter la Persistance des Données 
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#vers-des-images-plus-complexes" aria-label="Ancre">#</a></span>        
+            style="text-decoration-line: none !important;" href="#3--impl%c3%a9menter-la-persistance-des-donn%c3%a9es" aria-label="Ancre">#</a></span>        
     
 </h2>
-<p>Bien, nous savons désormais nous baser sur une image pré-existante avec l&rsquo;instruction <code>FROM</code> et exécuter des commandes avec l&rsquo;instruction <code>RUN</code>.
-Prenons un nouvel exemple et essayons de nous lancer dans une création d&rsquo;image plus complexe : l&rsquo;installation du framework PHP <a href="https://symfony.com/"   target="_blank">
-    Symfony</a>.</p>
-<p>Voici le fichier Dockerfile complet :</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> php:8.0-apache</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get install -y <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>libpng-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>libjpeg62-turbo-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>libxml2-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>libicu-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>git <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>unzip<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> docker-php-ext-configure gd --with-jpeg<span class="o">=</span>/usr/include/ <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="o">&amp;&amp;</span> docker-php-ext-install gd pdo pdo_mysql opcache intl<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> a2enmod rewrite<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> curl -sS https://getcomposer.org/installer <span class="p">|</span> php -- --install-dir<span class="o">=</span>/usr/local/bin --filename<span class="o">=</span>composer<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /var/www/html</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> composer create-project symfony/skeleton my_project_name<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> APACHE_DOCUMENT_ROOT /var/www/html/my_project_name/public<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> sed -ri -e <span class="s1">&#39;s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g&#39;</span> /etc/apache2/sites-available/*.conf<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 80</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;apache2-foreground&#34;</span><span class="p">]</span><span class="err">
-</span></span></span></code></pre></div><p>Sont ici présentes 4 instructions Dockerfile que nous n&rsquo;avons pas encore vues : <code>WORKDIR</code>, <code>ENV</code>, <code>EXPOSE</code> et <code>CMD</code>.</p>
-<p>Reprenons les différentes instructions une par une.</p>
-<p>Nous commencons par nous baser sur l&rsquo;image officielle de php-apache.
-Les deux <code>RUN</code> suivants installent toutes les librairies requises pour l&rsquo;installation de Symfony, suivi d&rsquo;une modification de config du serveur Apache (RUN a2enmod rewrite).</p>
-<p><code>WORKDIR</code> définit simplement le dossier dans lequel les commandes suivantes seront exécutées. Il est l&rsquo;équivalent du <code>cd</code>, à ceci près qu&rsquo;il créera le dossier (donc également équivalent du <code>mkdir</code>) si celui-ci n&rsquo;existe pas déjà !</p>
-<p><code>ENV</code> permet de définir une variable d&rsquo;environnement qui pourra être réutilisée par la majeure partie des instructions Dockerfile.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">ENV</span> APACHE_DOCUMENT_ROOT /var/www/html/my_project_name/public<span class="err">
-</span></span></span></code></pre></div><p>Une autre syntaxe existe : <code>ENV nom_de_variable=&quot;valeur&quot;</code></p>
-<p>Ici, la variable d&rsquo;environnement <code>APACHE_DOCUMENT_ROOT</code> définie après <code>ENV</code> est réutilisée comme ceci : <code>${APACHE_DOCUMENT_ROOT}</code>.
-<em>Note</em> : dans certains cas, on préfèrera utiliser l&rsquo;instruction <code>ARG</code> qui permet de définir des variables utilisées uniquement au moment du build et qui ne seront pas persistées dans le container.</p>
-<p><code>EXPOSE</code> informe Docker que le container devra écouter sur le port spécifié. <code>EXPOSE</code> est configuré en TCP par défaut, mais on peut lui spécifier d&rsquo;utiliser le protocole UDP si nécessaire :</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">EXPOSE</span><span class="s"> 80/udp</span><span class="err">
-</span></span></span></code></pre></div><p><code>CMD</code> définit la commande executée par défaut lorsque le container est lancé.
-Il ne peut y avoir qu&rsquo;une seule instruction <code>CMD</code> par Dockerfile ! (Notez que si plusieurs sont présentes, seule la dernière sera executée.)
-Il est possible de surcharger <code>CMD</code> au moment du run avec la syntaxe suivante : <code>docker run $image $autre_commande</code></p>
-<p>Et voilà ! On peut donc build notre image, puis lancer le container :</p>
-<pre tabindex="0"><code>docker build -t test-symfony .
-docker run -p 8080:80 test-symfony
-</code></pre><p><code>-p</code> nous permet de spéficier les ports utilisés par notre container. Le premier nombre définit le port utilisé physiquement sur votre machine, et le lie au deuxième nombre qui définit le port utilisé dans le container.
-Rendez-vous sur localhost:8080 pour voir la page d&rsquo;accueil de Symfony.</p>
-<p>Cet article n&rsquo;était qu&rsquo;une introduction aux fichiers Dockerfile qui ne fait qu&rsquo;effleurer les possibilités de la construction d&rsquo;image Docker. La deuxième partie suivra bientôt pour aborder d&rsquo;autres notions importantes.</p>
-
+<p>Ajoutez un volume à la définition de service Redis dans docker-compose.yml :</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="line"><span class="cl">redis:<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>image: <span class="s2">&#34;redis:latest&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>ports:<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>- <span class="s2">&#34;6379:6379&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>volumes:<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>- redis-data:/data<span class="err">
+</span></span></span></code></pre></div><p>Créez un volume Docker à coup de <code>docker volume create redis-data</code>.
+Un volume Docker est une forme de stockage persistant que vous pouvez utiliser avec vos conteneurs Docker.
+Contrairement à un dossier mappé sur l&rsquo;hôte, un volume est complètement géré par Docker et permet de sauvegarder des données indépendamment du cycle de vie des conteneurs. Dans notre cas, nous avons utilisé un volume pour stocker les données de notre base de données Redis, afin de ne pas les perdre lorsque le conteneur est arrêté ou supprimé.</p>
+<div id="tester-httpbin" class="anchor"></div>
+<h4 class="relative group">Tester httpbin 
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#tester-httpbin" aria-label="Ancre">#</a></span>        
+    
+</h4>
+<p>Vous pouvez tester le service <code>httpbin</code> de plusieurs manières :</p>
+<ol>
+<li>
+<p><strong>Navigateur Web</strong> : Ouvrez <code>http://localhost:8080</code> dans votre navigateur.</p>
+</li>
+<li>
+<p><strong>Curl</strong> : Vous pouvez utiliser <code>curl</code> pour envoyer des requêtes HTTP :</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl http://localhost:8080/get
+</span></span></code></pre></div><div id="tester-redis" class="anchor"></div>
+<h4 class="relative group">Tester Redis 
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#tester-redis" aria-label="Ancre">#</a></span>        
+    
+</h4>
+<ol>
+<li><strong>Shell Redis</strong> :</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker <span class="nb">exec</span> -it <span class="o">[</span>CONTAINER_ID<span class="o">]</span> redis-cli
+</span></span></code></pre></div><p>Puis, une fois dans le shell :</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">set</span> user:1 <span class="s2">&#34;John Doe&#34;</span>
+</span></span><span class="line"><span class="cl">get user:1
+</span></span></code></pre></div><p>Cela va créer une clé <code>user:1</code> avec la valeur <code>&quot;John Doe&quot;</code> et ensuite récupérer cette valeur.</p>
+<ol start="2">
+<li><strong>Script ou application</strong> : Vous pouvez également utiliser un script Python ou une application pour interagir avec Redis.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">redis</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">r</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">Redis</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">r</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;user:2&#39;</span><span class="p">,</span> <span class="s1">&#39;Jane Doe&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;user:2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&#34;utf-8&#34;</span><span class="p">))</span>
+</span></span></code></pre></div>
         </div>
                 
         
@@ -612,8 +588,8 @@ Rendez-vous sur localhost:8080 pour voir la page d&rsquo;accueil de Symfony.</p>
       </div>
      
      <script>
-        var oid = "views_posts\/dockerfile-basics.md"
-        var oid_likes = "likes_posts\/dockerfile-basics.md"
+        var oid = "views_posts\/dockerize-a-simple-app.md"
+        var oid_likes = "likes_posts\/dockerize-a-simple-app.md"
       </script>
       
       
@@ -632,18 +608,40 @@ Rendez-vous sur localhost:8080 pour voir la page d&rsquo;accueil de Symfony.</p>
       <div class="flex justify-between pt-3">
         <span>
           
-        </span>
-        <span>
-          
-            <a class="flex text-right group ml-3" href="/posts/dockerize-a-simple-app/">
+            <a class="flex group mr-3" href="/posts/dockerfile-basics/">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
-                  >Dockerizer une app web simple</span
+                  >Les bases de Dockerfile - Partie I</span
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   
-                    <time datetime="2023-09-24 18:54:50 &#43;0200 CEST">24 septembre 2023</time>
+                    <time datetime="2023-08-19 12:25:00 &#43;0200 CEST">19 août 2023</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/posts/learning-ocaml/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Learning Ocaml</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2023-11-12 00:00:00 &#43;0000 UTC">12 novembre 2023</time>
                   
                 </span>
               </span>

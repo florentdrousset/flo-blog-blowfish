@@ -7,7 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>fr</language>
     <copyright>© 2023 Florent Drousset</copyright>
-    <lastBuildDate>Sat, 19 Aug 2023 12:25:00 +0200</lastBuildDate><atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 12 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning Ocaml</title>
+      <link>http://example.org/posts/learning-ocaml/</link>
+      <pubDate>Sun, 12 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/posts/learning-ocaml/</guid>
+      <description>OCaml, my 🐫 # I&amp;rsquo;ve started learning OCaml very recently and, oh boy, it&amp;rsquo;s been a hell of a ride.</description>
+      
+    </item>
+    
+    <item>
+      <title>Dockerizer une app web simple</title>
+      <link>http://example.org/posts/dockerize-a-simple-app/</link>
+      <pubDate>Sun, 24 Sep 2023 18:54:50 +0200</pubDate>
+      
+      <guid>http://example.org/posts/dockerize-a-simple-app/</guid>
+      <description>Introduction # Dans ce petit tutoriel, nous allons explorer comment Docker peut simplifier le déploiement d&amp;rsquo;une application web.</description>
+      
+    </item>
+    
     <item>
       <title>Les bases de Dockerfile - Partie I</title>
       <link>http://example.org/posts/dockerfile-basics/</link>

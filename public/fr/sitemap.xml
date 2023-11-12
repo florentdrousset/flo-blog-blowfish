@@ -5,7 +5,7 @@
     
       <url>
             <loc>http://example.org/</loc>
-            <lastmod>2023-08-19T12:25:00+02:00</lastmod>
+            <lastmod>2023-11-12T00:00:00+00:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>0.5</priority>
             <xhtml:link
@@ -23,8 +23,8 @@
   
     
       <url>
-            <loc>http://example.org/posts/dockerfile-basics/</loc>
-            <lastmod>2023-08-19T12:25:00+02:00</lastmod>
+            <loc>http://example.org/posts/learning-ocaml/</loc>
+            <lastmod>2023-11-12T00:00:00+00:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>0.5</priority>
           </url>
@@ -33,6 +33,24 @@
     
       <url>
             <loc>http://example.org/posts/</loc>
+            <lastmod>2023-11-12T00:00:00+00:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>0.5</priority>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://example.org/posts/dockerize-a-simple-app/</loc>
+            <lastmod>2023-09-24T18:54:50+02:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>0.5</priority>
+          </url>
+    
+  
+    
+      <url>
+            <loc>http://example.org/posts/dockerfile-basics/</loc>
             <lastmod>2023-08-19T12:25:00+02:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>0.5</priority>

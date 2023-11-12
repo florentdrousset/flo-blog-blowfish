@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   
-  <title>Les bases de Dockerfile - Partie I &middot; Florent Drousset</title>
-  <meta name="title" content="Les bases de Dockerfile - Partie I &middot; Florent Drousset" />
+  <title>Learning Ocaml &middot; Florent Drousset</title>
+  <meta name="title" content="Learning Ocaml &middot; Florent Drousset" />
   
   <meta name="description" content="Blog de Florent Drousset" />
   
   
   
-  <link rel="canonical" href="http://example.org/posts/dockerfile-basics/" />
+  <link rel="canonical" href="http://example.org/posts/learning-ocaml/" />
   
   
   
@@ -58,17 +58,17 @@
   
   
   
-  <meta property="og:title" content="Les bases de Dockerfile - Partie I" />
-<meta property="og:description" content="Préambule # Pour rappel :" />
+  <meta property="og:title" content="Learning Ocaml" />
+<meta property="og:description" content="OCaml, my 🐫 # I&rsquo;ve started learning OCaml very recently and, oh boy, it&rsquo;s been a hell of a ride." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/posts/dockerfile-basics/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-08-19T12:25:00+02:00" />
-<meta property="article:modified_time" content="2023-08-19T12:25:00+02:00" />
+<meta property="og:url" content="http://example.org/posts/learning-ocaml/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-11-12T00:00:00+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Les bases de Dockerfile - Partie I"/>
-<meta name="twitter:description" content="Préambule # Pour rappel :"/>
+<meta name="twitter:title" content="Learning Ocaml"/>
+<meta name="twitter:description" content="OCaml, my 🐫 # I&rsquo;ve started learning OCaml very recently and, oh boy, it&rsquo;s been a hell of a ride."/>
 
   
   <script type="application/ld+json">
@@ -76,26 +76,26 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "Posts",
-    "name": "Les bases de Dockerfile - Partie I",
-    "headline": "Les bases de Dockerfile - Partie I",
+    "name": "Learning Ocaml",
+    "headline": "Learning Ocaml",
     
-    "abstract": "Préambule # Pour rappel :",
+    "abstract": "OCaml, my 🐫 # I\u0026rsquo;ve started learning OCaml very recently and, oh boy, it\u0026rsquo;s been a hell of a ride.",
     "inLanguage": "fr",
-    "url" : "http:\/\/example.org\/posts\/dockerfile-basics\/",
+    "url" : "http:\/\/example.org\/posts\/learning-ocaml\/",
     "author" : {
       "@type": "Person",
       "name": "Florent Drousset"
     },
     "copyrightYear": "2023",
-    "dateCreated": "2023-08-19T12:25:00\u002b02:00",
-    "datePublished": "2023-08-19T12:25:00\u002b02:00",
+    "dateCreated": "2023-11-12T00:00:00\u002b00:00",
+    "datePublished": "2023-11-12T00:00:00\u002b00:00",
     
-    "dateModified": "2023-08-19T12:25:00\u002b02:00",
+    "dateModified": "2023-11-12T00:00:00\u002b00:00",
     
     
     
     "mainEntityOfPage": "true",
-    "wordCount": "1206"
+    "wordCount": "516"
   }]
   </script>
 
@@ -323,7 +323,7 @@
   <header id="single_header" class="mt-5 max-w-prose">
     
     <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-      Les bases de Dockerfile - Partie I
+      Learning Ocaml
     </h1>
     <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
       
@@ -443,164 +443,46 @@
 
 
         <div class="max-w-prose mb-20">
-          <div id="préambule" class="anchor"></div>
-<h2 class="relative group">Préambule 
+          <div id="ocaml-my-" class="anchor"></div>
+<h1 class="relative group">OCaml, my 🐫 
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#pr%c3%a9ambule" aria-label="Ancre">#</a></span>        
+            style="text-decoration-line: none !important;" href="#ocaml-my-" aria-label="Ancre">#</a></span>        
     
-</h2>
-<p>Pour rappel :</p>
-<ul>
-<li>une image Docker est un <em>template</em> contenant des instructions pour créer un container Docker</li>
-<li>un fichier Dockerfile permet de définir ces instructions afin de créer une image Docker</li>
-<li>une image Docker peut comporter plusieurs layers et commence toujours avec un layer de base</li>
-</ul>
-<p>Pour notre premier test, nous allons utiliser une image de la distro Linux <a href="https://www.alpinelinux.org/"   target="_blank">
-    Alpine</a> comme layer de base et y installer vim.
-La première instruction de notre Dockerfile (nommé <code>Dockerfile</code>) sera donc :</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> alpine:latest</span><span class="err">
-</span></span></span></code></pre></div><p>En effet, une image peut être (et sera la plupart du temps) basée sur une autre image.
-Pour ce premier exemple, nous nous basons sur la dernière version de Alpine. Si nous souhaitions utiliser une version spécifique, on pourrait alors écrire <code>alpine:3.15.10</code> (par exemple).</p>
-<p>La prochaine instruction sera</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">RUN</span> apk update <span class="o">&amp;&amp;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>apk add vim<span class="err">
-</span></span></span></code></pre></div><p>L&rsquo;instruction RUN va créer un nouveau <em>layer</em> Docker et exécuter l&rsquo;instruction passée en paramètre. En l&rsquo;occurence, les instructions executées seront <code>apk update</code>
-et <code>apk add vim</code>.</p>
-<div id="construction-de-limage" class="anchor"></div>
-<h2 class="relative group">Construction de l&rsquo;image 
+</h1>
+<p>I&rsquo;ve started learning OCaml very recently and, oh boy, it&rsquo;s been a hell of a ride.
+The language I&rsquo;ve worked with the most in my life is PHP. I&rsquo;ve studied a bit of C and Java at school, and as a web developer I obviously can&rsquo;t avoid coding in Javascript, but most of what I&rsquo;ve learned at school and used at work was (and still is) PHP. Which means that the functional paradigm has been absolutely unknown to me until then.</p>
+<p>I enjoy programming on my free time, but it&rsquo;s sometimes difficult to stay focused on a goal when there are no deadlines or obligations attached to that goal. I&rsquo;ve also noticed that I get bored pretty quick whenever I try to learn a new language that has features/paradigm similar to PHP : it&rsquo;s not so exciting to rewrite the same thing or do the same projects with just a different syntax.
+Another thing that feels exciting is that the OCaml ecosystem for web is not as developped as other more mainstream languages. It feels like there are styll many things to do and lots of code to write, which feels great to me.</p>
+<p>I came across OCaml code for the first time very recently and was hooked by the expressive syntax of the language. Being used to imperative languages and not having a very long academic background makes learning OCaml quite tricky, to say the least, but it also makes the process very exciting, and it feels like discovering a whole new world.</p>
+<p>But enough said about me : the goal of the following serie of articles is to provey a very quick introduction to the language, from the eyes of a web developer used to PHP.</p>
+<p>I will spare you the basic details that you can easily find on Wikipedia (or even better : ocaml.org), but OCaml (Objective Caml) is the last implemenation of the language Caml, that was created in France (cocorico !) in 1987.</p>
+<div id="installation" class="anchor"></div>
+<h1 class="relative group">Installation 
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#construction-de-limage" aria-label="Ancre">#</a></span>        
+            style="text-decoration-line: none !important;" href="#installation" aria-label="Ancre">#</a></span>        
     
-</h2>
-<p>Pour constuire une image à partir de notre Dockerfile, on utilisera <code>docker build</code>.
-<code>docker build</code> requiert à minima un contexte : en l&rsquo;occurence le dossier dans lequel se trouve le Dockerfile.
-On utilisera également le flag <code>-t</code> afin de tagger notre image avec un nom pour des raisons de praticité.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl">docker build -t dockerfile-tutorial .<span class="err">
-</span></span></span></code></pre></div><p>Docker va donc build notre image. Pour vérifier si l&rsquo;image a bien été créée :</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl">docker images<span class="err">
-</span></span></span></code></pre></div><p>Retour console :</p>
-<pre tabindex="0"><code>REPOSITORY                         TAG               IMAGE ID       CREATED         SIZE
-dockerfile-tutorial                latest            4f21a4e055d1   40 hours ago    41.4MB
-</code></pre><div id="construction-du-container" class="anchor"></div>
-<h2 class="relative group">Construction du container 
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
-        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#construction-du-container" aria-label="Ancre">#</a></span>        
-    
-</h2>
-<p>Bien ! Nous avons notre image, nous pouvons à présent créer un container à partir de celle-ci.
-Le container sera une instance de notre image qui n&rsquo;est, encore une fois, qu&rsquo;un modèle ou <strong>template</strong> permettant de créer des containers Docker.
-Pour run un container à partir de notre image :</p>
-<pre tabindex="0"><code>docker run --rm -ti dockerfile-tutorial /bin/sh
-</code></pre><p>Analysons cette commande :</p>
-<p><code>docker run</code> : lance un conteneur Docker à partir d&rsquo;une image spécifiée (en l&rsquo;occurence, <code>dockerfile-tutorial</code>)</p>
-<p><code>--rm</code>: indique à Docker de supprimer automatiquement le conteneur une fois qu&rsquo;il est arrêté. Sans cette option, on devrait manuellement supprimer le conteneur à coup de <code>docker rm</code> après l&rsquo;avoir arrêté.</p>
-<p><code>-ti</code>: <code>-t</code> alloue un pseudo-TTY : le container sera run avec un terminal interactif. <code>-i</code> : Permet de garder <em>STDIN</em> ouvert, afin de pouvoir interagir avec le container en direct.</p>
-<p>Si tout s&rsquo;est bien passé, vous devriez être gratifié d&rsquo;un :</p>
-<pre tabindex="0"><code>/ #
-</code></pre><p>Vous voilà donc connecté au terminal de votre nouveau container basé sur l&rsquo;image alpine.
-Comme nous avions spécifié l&rsquo;installation de <em>vim</em> dans le Dockerfile, nous pouvons tester si celui-ci fonctionne bien :</p>
-<pre tabindex="0"><code>vim
-</code></pre><p>Nous voilà sur <em>vim</em>, lancé depuis notre nouveau container construit à partir du Dockefile que nous avons écrit.
-<code>:q</code> + entrée pour quitter vim, et taper <code>exit</code> pour quitter le container.</p>
-<p><code>docker ps</code> permet de lister tous les containers actifs. Comme nous venons de quitter notre container, celui-ci ne devrait pas apparaître dans cette liste.</p>
-<div id="un-mot-sur-les-layers" class="anchor"></div>
-<h2 class="relative group">Un mot sur les layers 
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
-        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#un-mot-sur-les-layers" aria-label="Ancre">#</a></span>        
-    
-</h2>
-<p>Chaque instruction de notre Dockerfile construit un nouveau layer au-dessus du précédent.
-Ceux-ci sont automatiquement mis en cache par Docker lors du build : Docker essayera toujours de récupérer un layer en cache après avoir vérifié si celui-ci a été modifié.</p>
-<p>Si un layer a changé depuis le dernier build, <strong>tous les layers suivants seront rebuild</strong>. L&rsquo;optimisation du cache dans Docker fera probablement l&rsquo;objet d&rsquo;un article à part entière,
-mais vous pouvez vous référer à <a href="https://docs.docker.com/build/cache/"   target="_blank">
-    l&rsquo;article dédié</a> dans la documentation officielle de Docker.</p>
-<p>Reprenons le retour console lorsque que nous exécutons la commande <code>docker build -t dockerfile-tutorial .</code> :</p>
-<pre tabindex="0"><code>[+] Building 0.4s (7/7) FINISHED
-=&gt; [internal] load build definition from Dockerfile                                                                                                                                                    0.0s
-=&gt; =&gt; transferring dockerfile: 88B                                                                                                                                                                     0.0s
-=&gt; [internal] load .dockerignore                                                                                                                                                                       0.0s
-=&gt; =&gt; transferring context: 2B                                                                                                                                                                         0.0s
-=&gt; [internal] load metadata for docker.io/library/alpine:latest                                                                                                                                        0.4s
-=&gt; [1/3] FROM docker.io/library/alpine:latest@sha256:7144f7bab3d4c2648d7e59409f15ec52a18006a128c733fcff20d3a4a54ba44a                                                                                  0.0s
-=&gt; CACHED [2/3] RUN apk update                                                                                                                                                                         0.0s
-=&gt; CACHED [3/3] RUN apk add vim                                                                                                                                                                        0.0s
-=&gt; exporting to image                                                                                                                                                                                  0.0s
-=&gt; =&gt; exporting layers                                                                                                                                                                                 0.0s
-=&gt; =&gt; writing image sha256:011e7455dac2771e18a365a9e9fae2951eb199c7f0b901b7b2cbb60ef5cdaa68                                                                                                            0.0s
-=&gt; =&gt; naming to docker.io/library/dockerfile-tutorial
-</code></pre><p>On peut constater que 3 layers ont été lancés :
-1 - le layer de base : l&rsquo;image <code>alpine:latest</code>
-2 - l&rsquo;instruction <code>RUN apk update</code> (récupérée du cache)
-3 - l&rsquo;instruction <code>RUN apk add vim</code> (également récupérée du cache)</p>
-<p>Avoir une bonne compréhension des layers est important pour comprendre la construction des images Docker.</p>
-<div id="vers-des-images-plus-complexes" class="anchor"></div>
-<h2 class="relative group">Vers des images plus complexes 
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
-        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#vers-des-images-plus-complexes" aria-label="Ancre">#</a></span>        
-    
-</h2>
-<p>Bien, nous savons désormais nous baser sur une image pré-existante avec l&rsquo;instruction <code>FROM</code> et exécuter des commandes avec l&rsquo;instruction <code>RUN</code>.
-Prenons un nouvel exemple et essayons de nous lancer dans une création d&rsquo;image plus complexe : l&rsquo;installation du framework PHP <a href="https://symfony.com/"   target="_blank">
-    Symfony</a>.</p>
-<p>Voici le fichier Dockerfile complet :</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> php:8.0-apache</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get install -y <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>libpng-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>libjpeg62-turbo-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>libxml2-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>libicu-dev <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>git <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>unzip<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> docker-php-ext-configure gd --with-jpeg<span class="o">=</span>/usr/include/ <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="o">&amp;&amp;</span> docker-php-ext-install gd pdo pdo_mysql opcache intl<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> a2enmod rewrite<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> curl -sS https://getcomposer.org/installer <span class="p">|</span> php -- --install-dir<span class="o">=</span>/usr/local/bin --filename<span class="o">=</span>composer<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /var/www/html</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> composer create-project symfony/skeleton my_project_name<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> APACHE_DOCUMENT_ROOT /var/www/html/my_project_name/public<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> sed -ri -e <span class="s1">&#39;s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g&#39;</span> /etc/apache2/sites-available/*.conf<span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 80</span><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err">
-</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;apache2-foreground&#34;</span><span class="p">]</span><span class="err">
-</span></span></span></code></pre></div><p>Sont ici présentes 4 instructions Dockerfile que nous n&rsquo;avons pas encore vues : <code>WORKDIR</code>, <code>ENV</code>, <code>EXPOSE</code> et <code>CMD</code>.</p>
-<p>Reprenons les différentes instructions une par une.</p>
-<p>Nous commencons par nous baser sur l&rsquo;image officielle de php-apache.
-Les deux <code>RUN</code> suivants installent toutes les librairies requises pour l&rsquo;installation de Symfony, suivi d&rsquo;une modification de config du serveur Apache (RUN a2enmod rewrite).</p>
-<p><code>WORKDIR</code> définit simplement le dossier dans lequel les commandes suivantes seront exécutées. Il est l&rsquo;équivalent du <code>cd</code>, à ceci près qu&rsquo;il créera le dossier (donc également équivalent du <code>mkdir</code>) si celui-ci n&rsquo;existe pas déjà !</p>
-<p><code>ENV</code> permet de définir une variable d&rsquo;environnement qui pourra être réutilisée par la majeure partie des instructions Dockerfile.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">ENV</span> APACHE_DOCUMENT_ROOT /var/www/html/my_project_name/public<span class="err">
-</span></span></span></code></pre></div><p>Une autre syntaxe existe : <code>ENV nom_de_variable=&quot;valeur&quot;</code></p>
-<p>Ici, la variable d&rsquo;environnement <code>APACHE_DOCUMENT_ROOT</code> définie après <code>ENV</code> est réutilisée comme ceci : <code>${APACHE_DOCUMENT_ROOT}</code>.
-<em>Note</em> : dans certains cas, on préfèrera utiliser l&rsquo;instruction <code>ARG</code> qui permet de définir des variables utilisées uniquement au moment du build et qui ne seront pas persistées dans le container.</p>
-<p><code>EXPOSE</code> informe Docker que le container devra écouter sur le port spécifié. <code>EXPOSE</code> est configuré en TCP par défaut, mais on peut lui spécifier d&rsquo;utiliser le protocole UDP si nécessaire :</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">EXPOSE</span><span class="s"> 80/udp</span><span class="err">
-</span></span></span></code></pre></div><p><code>CMD</code> définit la commande executée par défaut lorsque le container est lancé.
-Il ne peut y avoir qu&rsquo;une seule instruction <code>CMD</code> par Dockerfile ! (Notez que si plusieurs sont présentes, seule la dernière sera executée.)
-Il est possible de surcharger <code>CMD</code> au moment du run avec la syntaxe suivante : <code>docker run $image $autre_commande</code></p>
-<p>Et voilà ! On peut donc build notre image, puis lancer le container :</p>
-<pre tabindex="0"><code>docker build -t test-symfony .
-docker run -p 8080:80 test-symfony
-</code></pre><p><code>-p</code> nous permet de spéficier les ports utilisés par notre container. Le premier nombre définit le port utilisé physiquement sur votre machine, et le lie au deuxième nombre qui définit le port utilisé dans le container.
-Rendez-vous sur localhost:8080 pour voir la page d&rsquo;accueil de Symfony.</p>
-<p>Cet article n&rsquo;était qu&rsquo;une introduction aux fichiers Dockerfile qui ne fait qu&rsquo;effleurer les possibilités de la construction d&rsquo;image Docker. La deuxième partie suivra bientôt pour aborder d&rsquo;autres notions importantes.</p>
+</h1>
+<p>The first thing that you will need is opam, the package manager for OCaml (that&rsquo;s like composer, <em>right ??</em>)</p>
+<pre tabindex="0"><code>bash -c &#34;sh &lt;(curl -fsSL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)&#34;
+</code></pre><p>You can then initialize opam, which will create an <em>opan switch</em> with :</p>
+<pre tabindex="0"><code>opam init
+</code></pre><p>Answer YES when asked if you want a hook to your shell.</p>
+<p>An opam switch is an installation of an ocaml which comes with several parameters : compiler version, installed packages, etc. You can easily switch between different &ldquo;ocaml environments&rdquo; (my words, that might not be the proper terminology) by doing</p>
+<pre tabindex="0"><code>opam switch &lt;switch-name&gt;
+</code></pre><p>If you just type <code>opam switch</code>, you&rsquo;ll see all the switches you have available.</p>
+<p>You can then install packages like this :</p>
+<pre tabindex="0"><code>opam install dune
+</code></pre><p>By running this command, you&rsquo;ll install <a href="dune"  >
+    https://github.com/ocaml/dune</a>, the build system for OCaml.
+Other interesting packages to install would be <a href="merlin"  >
+    https://github.com/ocaml/merlin</a> (auto-completion for vim/emacs), and also <a href="utop"  >
+    https://opam.ocaml.org/blog/about-utop/</a> (an improved interface for the toplevel REPL for OCaml)</p>
+<hr>
+<p>This is just the first article on a serie. Now that a basic environment has been set up, we&rsquo;ll start writing some actual code in the next article.</p>
 
         </div>
                 
@@ -612,8 +494,8 @@ Rendez-vous sur localhost:8080 pour voir la page d&rsquo;accueil de Symfony.</p>
       </div>
      
      <script>
-        var oid = "views_posts\/dockerfile-basics.md"
-        var oid_likes = "likes_posts\/dockerfile-basics.md"
+        var oid = "views_posts\/learning-ocaml.md"
+        var oid_likes = "likes_posts\/learning-ocaml.md"
       </script>
       
       
@@ -632,10 +514,15 @@ Rendez-vous sur localhost:8080 pour voir la page d&rsquo;accueil de Symfony.</p>
       <div class="flex justify-between pt-3">
         <span>
           
-        </span>
-        <span>
-          
-            <a class="flex text-right group ml-3" href="/posts/dockerize-a-simple-app/">
+            <a class="flex group mr-3" href="/posts/dockerize-a-simple-app/">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
@@ -647,15 +534,10 @@ Rendez-vous sur localhost:8080 pour voir la page d&rsquo;accueil de Symfony.</p>
                   
                 </span>
               </span>
-              <span
-                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
-                >&rarr;</span
-              >
-              <span
-                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
-                >&larr;</span
-              >
             </a>
+          
+        </span>
+        <span>
           
         </span>
       </div>
